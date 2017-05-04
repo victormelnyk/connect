@@ -1,23 +1,30 @@
-(function() {
-  var mediator = window.connect.mediator;
+(() => {
+  const mediator = window.connect.mediator;
 
-  mediator.provide('CHANNEL_1', function(value) {
+  mediator.provide('CHANNEL_1', value => {
     return value * 2;
   });
-  var result = mediator.call('CHANNEL_1', [2]);
+
+  const result = mediator.request('CHANNEL_1', [2]);
   console.log('CHANNEL_1 result', result);
+
   mediator.remove('CHANNEL_1');
+})();
 
+(() => {
+  const mediator = window.connect.mediator;
 
-  mediator.provide('CHANNEL_2', function(value) {
-    return new Promise(function(resolve, reject) {
+  mediator.provide('CHANNEL_2', value => {
+    return new Promise(resolve => {
       setTimeout(function() {
         resolve(value * 2);
       }, 1000);
     });
   });
-  mediator.call('CHANNEL_2', [2]).then(function(result) {
+
+  mediator.request('CHANNEL_2', [2]).then(result => {
     console.log('CHANNEL_2 result', result);
   });
+
   mediator.remove('CHANNEL_2');
 })();

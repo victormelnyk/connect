@@ -1,52 +1,48 @@
 export default class Mediator {
   constructor() {
-    console.log('New Mediator');
-
     /**
      * Channel map
      * @member {{}}
+     * @private
      */
-    this.channels = {};
+    this._channels = {};
   }
 
   /**
-   *
-   * @param channel
-   * @param args
+   * Request to call provided function
+   * @param {string} channel
+   * @param {[*]} args
    * @returns {*}
    */
-  call(channel, args) {
-    console.log(`Mediator call "${channel}"`);
-    if (!this.channels[channel]) {
-      throw Error(`Mediator.call. Channel "${channel}" does not exist`);
+  request(channel, args = []) {
+    if (!this._channels[channel]) {
+      throw Error(`Mediator.request - channel "${channel}" does not exist`);
     }
-    return this.channels[channel].apply(null, args);
+    return this._channels[channel](...args);
   }
 
   /**
-   *
-   * @param channel
-   * @param func
+   * Set channel function
+   * @param {string} channel
+   * @param {function} func
    */
   provide(channel, func) {
-    console.log(`Mediator provide "${channel}"`);
-    if (this.channels[channel]) {
-      throw Error(`Mediator.provide. Channel "${channel}" already exist`);
+    if (this._channels[channel]) {
+      throw Error(`Mediator.provide - channel "${channel}" already exist`);
     }
 
-    this.channels[channel] = func;
+    this._channels[channel] = func;
   }
 
   /**
-   *
-   * @param channel
+   * Remove channel
+   * @param {string} channel
    */
   remove(channel) {
-    console.log(`Mediator remove "${channel}"`);
-    if (!this.channels[channel]) {
-      throw Error(`Mediator.remove. Channel "${channel}" does not exist`);
+    if (!this._channels[channel]) {
+      throw Error(`Mediator.remove - channel "${channel}" does not exist`);
     }
 
-    delete this.channels[channel];
+    delete this._channels[channel];
   }
 }

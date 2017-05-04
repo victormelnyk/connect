@@ -5,7 +5,8 @@ module.exports = {
   ],
   "rules": {
     "comma-dangle": ["error", "never"],
-    "arrow-parens": ["error", "as-needed"]
+    "arrow-parens": ["error", "as-needed"],
+    "no-underscore-dangle": ["error", { "allowAfterThis": true }]
   },
   "globals": {
     "window": true
