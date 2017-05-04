@@ -1,7 +1,6 @@
 import Mediator from '../src/mediator';
 
 describe('Mediator', () => {
-
   let mediator;
 
   beforeEach(() => {
