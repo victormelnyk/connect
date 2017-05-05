@@ -6,6 +6,7 @@ module.exports = config => {
     browsers: ['PhantomJS'],
     colors: true,
     files: [
+      'node_modules/babel-polyfill/dist/polyfill.js',
       'src/*.js',
       'tests/*.spec.js'
     ],

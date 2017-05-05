@@ -11,7 +11,8 @@ module.exports = {
       "requireParamDescription": false,
       "requireReturnDescription": false,
       "requireReturn": false
-    }]
+    }],
+    "no-prototype-builtins": "off"
   },
   "globals": {
     "window": true

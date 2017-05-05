@@ -1,6 +1,6 @@
 import Mediator from '../src/mediator';
 
-describe('Mediator', () => {
+describe('Mediator:', () => {
   let mediator;
 
   beforeEach(() => {
@@ -39,20 +39,52 @@ describe('Mediator', () => {
     }).toThrowError('Mediator.remove - channel "CHANNEL" does not exist');
   });
 
-  it('request channel', () => {
+  it('requestSynk channel without params', () => {
+    const func = () => 2;
+    const spyFunc = jasmine.createSpy().and.callFake(func);
+
+    mediator.provide('CHANNEL', spyFunc);
+    const result = mediator.requestSynk('CHANNEL');
+
+    expect(spyFunc).toHaveBeenCalled();
+    expect(result).toEqual(2);
+  });
+
+  it('requestSynk channel with params', () => {
     const func = (val1, val2) => (val1 + val2) * 2;
     const spyFunc = jasmine.createSpy().and.callFake(func);
 
     mediator.provide('CHANNEL', spyFunc);
-    const result = mediator.request('CHANNEL', [1, 2]);
+    const result = mediator.requestSynk('CHANNEL', [1, 2]);
 
     expect(spyFunc).toHaveBeenCalledWith(1, 2);
     expect(result).toEqual(6);
   });
 
-  it('request not existing channel', () => {
+  it('requestSynk channel without results', () => {
+    const func = () => {};
+    const spyFunc = jasmine.createSpy().and.callFake(func);
+
+    mediator.provide('CHANNEL', spyFunc);
+    const result = mediator.requestSynk('CHANNEL');
+
+    expect(spyFunc).toHaveBeenCalled();
+    expect(result).not.toBeDefined();
+  });
+
+  it('requestSynk not existing channel', () => {
     expect(() => {
-      mediator.request('CHANNEL');
-    }).toThrowError('Mediator.request - channel "CHANNEL" does not exist');
+      mediator.requestSynk('CHANNEL');
+    }).toThrowError('Mediator.requestSynk - channel "CHANNEL" does not exist');
+  });
+
+  it('requestSynk returns Promise', () => {
+    const func = () => Promise.resolve();
+
+    mediator.provide('CHANNEL', func);
+
+    expect(() => {
+      mediator.requestSynk('CHANNEL');
+    }).toThrowError('Mediator.requestSynk - channel "CHANNEL" should not returns Promise');
   });
 });

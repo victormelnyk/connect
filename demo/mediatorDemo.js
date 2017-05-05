@@ -4,7 +4,7 @@
 
   mediator.provide('CHANNEL_1', () => 2);
 
-  const result = mediator.request('CHANNEL_1');
+  const result = mediator.requestSynk('CHANNEL_1');
   console.log('CHANNEL_1 result', result);
 
   mediator.remove('CHANNEL_1');
@@ -16,7 +16,7 @@
 
   mediator.provide('CHANNEL_2', (val1, val2) => (val1 + val2) * 2);
 
-  const result = mediator.request('CHANNEL_2', [1, 2]);
+  const result = mediator.requestSynk('CHANNEL_2', [1, 2]);
   console.log('CHANNEL_2 result', result);
 
   mediator.remove('CHANNEL_2');
