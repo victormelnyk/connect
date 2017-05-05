@@ -6,7 +6,12 @@ module.exports = {
   "rules": {
     "comma-dangle": ["error", "never"],
     "arrow-parens": ["error", "as-needed"],
-    "no-underscore-dangle": ["error", { "allowAfterThis": true }]
+    "no-underscore-dangle": ["error", {"allowAfterThis": true}],
+    "valid-jsdoc": ["error", {
+      "requireParamDescription": false,
+      "requireReturnDescription": false,
+      "requireReturn": false
+    }]
   },
   "globals": {
     "window": true

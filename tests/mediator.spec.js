@@ -40,14 +40,14 @@ describe('Mediator', () => {
   });
 
   it('request channel', () => {
-    const func = value => value * 2;
+    const func = (val1, val2) => (val1 + val2) * 2;
     const spyFunc = jasmine.createSpy().and.callFake(func);
 
     mediator.provide('CHANNEL', spyFunc);
-    const result = mediator.request('CHANNEL', [2]);
+    const result = mediator.request('CHANNEL', [1, 2]);
 
-    expect(spyFunc).toHaveBeenCalledWith(2);
-    expect(result).toEqual(4);
+    expect(spyFunc).toHaveBeenCalledWith(1, 2);
+    expect(result).toEqual(6);
   });
 
   it('request not existing channel', () => {
