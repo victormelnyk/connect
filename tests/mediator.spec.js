@@ -87,4 +87,67 @@ describe('Mediator:', () => {
       mediator.requestSynk('CHANNEL');
     }).toThrowError('Mediator.requestSynk - channel "CHANNEL" should not returns Promise');
   });
+
+  it('request channel without params', done => {
+    const func = () => Promise.resolve(2);
+    const spyFunc = jasmine.createSpy().and.callFake(func);
+
+    mediator.provide('CHANNEL', spyFunc);
+    const resultPromise = mediator.request('CHANNEL');
+
+    expect(spyFunc).toHaveBeenCalled();
+    resultPromise.then(result => {
+      expect(result).toEqual(2);
+      done();
+    });
+  });
+
+  it('request channel with params', done => {
+    const func = (val1, val2) => Promise.resolve((val1 + val2) * 2);
+    const spyFunc = jasmine.createSpy().and.callFake(func);
+
+    mediator.provide('CHANNEL', spyFunc);
+    const resultPromise = mediator.request('CHANNEL', [1, 2]);
+
+    expect(spyFunc).toHaveBeenCalledWith(1, 2);
+    resultPromise.then(result => {
+      expect(result).toEqual(6);
+      done();
+    });
+  });
+
+  it('request channel without results', done => {
+    const func = () => Promise.resolve();
+    const spyFunc = jasmine.createSpy().and.callFake(func);
+
+    mediator.provide('CHANNEL', spyFunc);
+    const resultPromise = mediator.request('CHANNEL');
+
+    expect(spyFunc).toHaveBeenCalled();
+    resultPromise.then(result => {
+      expect(result).not.toBeDefined();
+      done();
+    });
+  });
+
+  it('request not existing channel', done => {
+    const resultPromise = mediator.request('CHANNEL');
+
+    resultPromise.catch(error => {
+      expect(error).toEqual(new Error('Mediator.request - channel "CHANNEL" does not exist'));
+      done();
+    });
+  });
+
+  it('request returns not Promise', done => {
+    const func = () => {};
+
+    mediator.provide('CHANNEL', func);
+    const resultPromise = mediator.request('CHANNEL');
+
+    resultPromise.catch(error => {
+      expect(error).toEqual(new Error('Mediator.request - channel "CHANNEL" should returns Promise'));
+      done();
+    });
+  });
 });

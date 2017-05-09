@@ -15,6 +15,9 @@ module.exports = {
     "no-prototype-builtins": "off"
   },
   "globals": {
-    "window": true
+    "window": true,
+    "jasmine": true,
+    "it": true,
+    "expect": true
   }
 };

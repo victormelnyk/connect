@@ -29,7 +29,7 @@ export default class Mediator {
     const result = func(...args);
 
     if (!Mediator.isPromise(result)) {
-      return Promise.reject(new Error(`Mediator.request - channel "${channel}" should be Promise`));
+      return Promise.reject(new Error(`Mediator.request - channel "${channel}" should returns Promise`));
     }
 
     return result;
