@@ -1,6 +1,9 @@
 import Mediator from './mediator';
+import Observer from './observer';
 
 window.connection = {
   Mediator,
-  mediator: new Mediator()
+  Observer,
+  mediator: new Mediator(),
+  observer: new Observer()
 };
