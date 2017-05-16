@@ -24,17 +24,17 @@ export default class Mediator {
    * @returns {Promise.<*>}
    */
   // TODO resolve Promise
-  callChannel(channel, channelFunctionArguments = []) {
+  execute(channel, channelFunctionArguments = []) {
     const channelFunction = this._channels[channel];
 
     if (!channelFunction) {
-      return Promise.reject(new Error(`Mediator.callChannel - channel "${channel}" does not exist`));
+      return Promise.reject(new Error(`Mediator.execute - channel "${channel}" does not exist`));
     }
 
     const result = channelFunction(...channelFunctionArguments);
 
     if (!Mediator.isPromise(result)) {
-      return Promise.reject(new Error(`Mediator.callChannel - channel "${channel}" should returns Promise`));
+      return Promise.reject(new Error(`Mediator.execute - channel "${channel}" should returns Promise`));
     }
 
     return result;
@@ -46,17 +46,17 @@ export default class Mediator {
    * @param {[*]} [channelFunctionArguments]
    * @returns {*}
    */
-  callChannelSynk(channel, channelFunctionArguments = []) {
+  executeSynk(channel, channelFunctionArguments = []) {
     const channelFunction = this._channels[channel];
 
     if (!channelFunction) {
-      throw new Error(`Mediator.callChannelSynk - channel "${channel}" does not exist`);
+      throw new Error(`Mediator.executeSynk - channel "${channel}" does not exist`);
     }
 
     const result = channelFunction(...channelFunctionArguments);
 
     if (Mediator.isPromise(result)) {
-      throw new Error(`Mediator.callChannelSynk - channel "${channel}" should not returns Promise`);
+      throw new Error(`Mediator.executeSynk - channel "${channel}" should not returns Promise`);
     }
 
     return result;

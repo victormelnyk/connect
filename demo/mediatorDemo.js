@@ -4,7 +4,7 @@
 
   mediator.register('CHANNEL_1', () => 2);
 
-  const result = mediator.callChannelSynk('CHANNEL_1');
+  const result = mediator.executeSynk('CHANNEL_1');
   console.log('CHANNEL_1 result', result);
 
   mediator.unregister('CHANNEL_1');
@@ -16,7 +16,7 @@
 
   mediator.register('CHANNEL_2', (val1, val2) => (val1 + val2) * 2);
 
-  const result = mediator.callChannelSynk('CHANNEL_2', [1, 2]);
+  const result = mediator.executeSynk('CHANNEL_2', [1, 2]);
   console.log('CHANNEL_2 result', result);
 
   mediator.unregister('CHANNEL_2');
@@ -32,7 +32,7 @@
     }, 1000);
   }));
 
-  mediator.callChannel('CHANNEL_3', [1, 2]).then(result => {
+  mediator.execute('CHANNEL_3', [1, 2]).then(result => {
     console.log('CHANNEL_3 result', result);
   });
 
