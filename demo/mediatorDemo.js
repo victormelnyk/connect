@@ -1,6 +1,6 @@
 // Sink call without params
 (() => {
-  const mediator = window.connect.mediator;
+  const mediator = window.connection.mediator;
 
   mediator.provideChannel('CHANNEL_1', () => 2);
 
@@ -12,7 +12,7 @@
 
 // Sink call with params
 (() => {
-  const mediator = window.connect.mediator;
+  const mediator = window.connection.mediator;
 
   mediator.provideChannel('CHANNEL_2', (val1, val2) => (val1 + val2) * 2);
 
@@ -24,7 +24,7 @@
 
 // Asink call with params
 (() => {
-  const mediator = window.connect.mediator;
+  const mediator = window.connection.mediator;
 
   mediator.provideChannel('CHANNEL_3', (val1, val2) => new Promise(resolve => {
     setTimeout(() => {

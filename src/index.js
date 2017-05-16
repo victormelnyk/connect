@@ -1,5 +1,6 @@
 import Mediator from './mediator';
 
-window.connect = {
+window.connection = {
+  Mediator,
   mediator: new Mediator()
 };

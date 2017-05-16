@@ -1,18 +1,18 @@
 {
-  "name": "connect",
+  "name": "connection",
   "version": "1.0.0",
-  "description": "Connect",
+  "description": "Connection",
   "main": "index.html",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/victormelnyk/connect.git"
+    "url": "git+https://github.com/victormelnyk/connection.git"
   },
   "author": "Victor Melnyk",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/victormelnyk/connect/issues"
+    "url": "https://github.com/victormelnyk/connection/issues"
   },
-  "homepage": "https://github.com/victormelnyk/connect#readme",
+  "homepage": "https://github.com/victormelnyk/connection#readme",
   "devDependencies": {
     "babel-polyfill": "^6.23.0",
     "babel-preset-es2015": "^6.24.1",
@@ -36,7 +36,7 @@
     "watchify": "^3.9.0"
   },
   "scripts": {
-    "browser": "browserify src/index.js -o dist/connect.js -t [ babelify --presets [ es2015 ] ] --debug | echo Done",
+    "browser": "mkdirp dist | browserify src/index.js -o dist/connection.js -t [ babelify --presets [ es2015 ] ] --debug | echo Done",
     "test": "karma start karma.conf.js",
     "build": "npm run browser",
     "lint": "eslint src/*.js demo/*.js",
