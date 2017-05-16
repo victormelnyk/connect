@@ -1,153 +1,162 @@
 import Mediator from '../src/mediator';
 
-describe('Mediator:', () => {
+describe('Mediator -', () => {
   let mediator;
 
   beforeEach(() => {
     mediator = new Mediator();
   });
 
-  it('provideChannel channel', () => {
-    const func = () => {};
+  describe('register -', () => {
+    it('add channel', () => {
+      const func = () => {};
 
-    mediator.provideChannel('CHANNEL', func);
+      mediator.register('CHANNEL', func);
 
-    expect(mediator._channels['CHANNEL']).toEqual(func);
+      expect(mediator._channels['CHANNEL']).toEqual(func);
+    });
+
+    it('duplicated channel', () => {
+      const func = () => {};
+
+      mediator.register('CHANNEL', func);
+
+      expect(() => {
+        mediator.register('CHANNEL', func);
+      }).toThrowError('Mediator.register - channel "CHANNEL" already exist');
+    });
   });
 
-  it('provideChannel duplicated channel', () => {
-    const func = () => {};
+  describe('unregister -', () => {
+    it('remove channel', () => {
+      const func = () => {};
 
-    mediator.provideChannel('CHANNEL', func);
-    expect(() => {
-      mediator.provideChannel('CHANNEL', func);
-    }).toThrowError('Mediator.provideChannel - channel "CHANNEL" already exist');
+      mediator.register('CHANNEL', func);
+      mediator.unregister('CHANNEL');
+
+      expect(mediator._channels['CHANNEL']).not.toBeDefined();
+    });
+
+    it('not existing channel', () => {
+      expect(() => {
+        mediator.unregister('CHANNEL');
+      }).toThrowError('Mediator.unregister - channel "CHANNEL" does not exist');
+    });
   });
 
-  it('removeChannel channel', () => {
-    const func = () => {};
+  describe('callChannelSynk -', () => {
+    it('channel without params', () => {
+      const func = () => 2;
+      const spyFunc = jasmine.createSpy().and.callFake(func);
 
-    mediator.provideChannel('CHANNEL', func);
-    mediator.removeChannel('CHANNEL');
+      mediator.register('CHANNEL', spyFunc);
+      const result = mediator.callChannelSynk('CHANNEL');
 
-    expect(mediator._channels['CHANNEL']).not.toBeDefined();
-  });
-
-  it('removeChannel not existing channel', () => {
-    expect(() => {
-      mediator.removeChannel('CHANNEL');
-    }).toThrowError('Mediator.removeChannel - channel "CHANNEL" does not exist');
-  });
-
-  it('callChannelSynk channel without params', () => {
-    const func = () => 2;
-    const spyFunc = jasmine.createSpy().and.callFake(func);
-
-    mediator.provideChannel('CHANNEL', spyFunc);
-    const result = mediator.callChannelSynk('CHANNEL');
-
-    expect(spyFunc).toHaveBeenCalled();
-    expect(result).toEqual(2);
-  });
-
-  it('callChannelSynk channel with params', () => {
-    const func = (val1, val2) => (val1 + val2) * 2;
-    const spyFunc = jasmine.createSpy().and.callFake(func);
-
-    mediator.provideChannel('CHANNEL', spyFunc);
-    const result = mediator.callChannelSynk('CHANNEL', [1, 2]);
-
-    expect(spyFunc).toHaveBeenCalledWith(1, 2);
-    expect(result).toEqual(6);
-  });
-
-  it('callChannelSynk channel without results', () => {
-    const func = () => {};
-    const spyFunc = jasmine.createSpy().and.callFake(func);
-
-    mediator.provideChannel('CHANNEL', spyFunc);
-    const result = mediator.callChannelSynk('CHANNEL');
-
-    expect(spyFunc).toHaveBeenCalled();
-    expect(result).not.toBeDefined();
-  });
-
-  it('callChannelSynk not existing channel', () => {
-    expect(() => {
-      mediator.callChannelSynk('CHANNEL');
-    }).toThrowError('Mediator.callChannelSynk - channel "CHANNEL" does not exist');
-  });
-
-  it('callChannelSynk returns Promise', () => {
-    const func = () => Promise.resolve();
-
-    mediator.provideChannel('CHANNEL', func);
-
-    expect(() => {
-      mediator.callChannelSynk('CHANNEL');
-    }).toThrowError('Mediator.callChannelSynk - channel "CHANNEL" should not returns Promise');
-  });
-
-  it('callChannel channel without params', done => {
-    const func = () => Promise.resolve(2);
-    const spyFunc = jasmine.createSpy().and.callFake(func);
-
-    mediator.provideChannel('CHANNEL', spyFunc);
-    const resultPromise = mediator.callChannel('CHANNEL');
-
-    expect(spyFunc).toHaveBeenCalled();
-    resultPromise.then(result => {
+      expect(spyFunc).toHaveBeenCalled();
       expect(result).toEqual(2);
-      done();
     });
-  });
 
-  it('callChannel channel with params', done => {
-    const func = (val1, val2) => Promise.resolve((val1 + val2) * 2);
-    const spyFunc = jasmine.createSpy().and.callFake(func);
+    it('channel with params', () => {
+      const func = (val1, val2) => (val1 + val2) * 2;
+      const spyFunc = jasmine.createSpy().and.callFake(func);
 
-    mediator.provideChannel('CHANNEL', spyFunc);
-    const resultPromise = mediator.callChannel('CHANNEL', [1, 2]);
+      mediator.register('CHANNEL', spyFunc);
+      const result = mediator.callChannelSynk('CHANNEL', [1, 2]);
 
-    expect(spyFunc).toHaveBeenCalledWith(1, 2);
-    resultPromise.then(result => {
+      expect(spyFunc).toHaveBeenCalledWith(1, 2);
       expect(result).toEqual(6);
-      done();
     });
-  });
 
-  it('callChannel channel without results', done => {
-    const func = () => Promise.resolve();
-    const spyFunc = jasmine.createSpy().and.callFake(func);
+    it('channel without results', () => {
+      const func = () => {};
+      const spyFunc = jasmine.createSpy().and.callFake(func);
 
-    mediator.provideChannel('CHANNEL', spyFunc);
-    const resultPromise = mediator.callChannel('CHANNEL');
+      mediator.register('CHANNEL', spyFunc);
+      const result = mediator.callChannelSynk('CHANNEL');
 
-    expect(spyFunc).toHaveBeenCalled();
-    resultPromise.then(result => {
+      expect(spyFunc).toHaveBeenCalled();
       expect(result).not.toBeDefined();
-      done();
+    });
+
+    it('not existing channel', () => {
+      expect(() => {
+        mediator.callChannelSynk('CHANNEL');
+      }).toThrowError('Mediator.callChannelSynk - channel "CHANNEL" does not exist');
+    });
+
+    it('returns Promise', () => {
+      const func = () => Promise.resolve();
+
+      mediator.register('CHANNEL', func);
+
+      expect(() => {
+        mediator.callChannelSynk('CHANNEL');
+      }).toThrowError('Mediator.callChannelSynk - channel "CHANNEL" should not returns Promise');
     });
   });
 
-  it('callChannel not existing channel', done => {
-    const resultPromise = mediator.callChannel('CHANNEL');
+  describe('callChannel -', () => {
+    it('channel without params', done => {
+      const func = () => Promise.resolve(2);
+      const spyFunc = jasmine.createSpy().and.callFake(func);
 
-    resultPromise.catch(error => {
-      expect(error).toEqual(new Error('Mediator.callChannel - channel "CHANNEL" does not exist'));
-      done();
+      mediator.register('CHANNEL', spyFunc);
+      const resultPromise = mediator.callChannel('CHANNEL');
+
+      expect(spyFunc).toHaveBeenCalled();
+      resultPromise.then(result => {
+        expect(result).toEqual(2);
+        done();
+      });
     });
-  });
 
-  it('callChannel returns not Promise', done => {
-    const func = () => {};
+    it('channel with params', done => {
+      const func = (val1, val2) => Promise.resolve((val1 + val2) * 2);
+      const spyFunc = jasmine.createSpy().and.callFake(func);
 
-    mediator.provideChannel('CHANNEL', func);
-    const resultPromise = mediator.callChannel('CHANNEL');
+      mediator.register('CHANNEL', spyFunc);
+      const resultPromise = mediator.callChannel('CHANNEL', [1, 2]);
 
-    resultPromise.catch(error => {
-      expect(error).toEqual(new Error('Mediator.callChannel - channel "CHANNEL" should returns Promise'));
-      done();
+      expect(spyFunc).toHaveBeenCalledWith(1, 2);
+      resultPromise.then(result => {
+        expect(result).toEqual(6);
+        done();
+      });
+    });
+
+    it('channel without results', done => {
+      const func = () => Promise.resolve();
+      const spyFunc = jasmine.createSpy().and.callFake(func);
+
+      mediator.register('CHANNEL', spyFunc);
+      const resultPromise = mediator.callChannel('CHANNEL');
+
+      expect(spyFunc).toHaveBeenCalled();
+      resultPromise.then(result => {
+        expect(result).not.toBeDefined();
+        done();
+      });
+    });
+
+    it('not existing channel', done => {
+      const resultPromise = mediator.callChannel('CHANNEL');
+
+      resultPromise.catch(error => {
+        expect(error).toEqual(new Error('Mediator.callChannel - channel "CHANNEL" does not exist'));
+        done();
+      });
+    });
+
+    it('returns not Promise', done => {
+      const func = () => {};
+
+      mediator.register('CHANNEL', func);
+      const resultPromise = mediator.callChannel('CHANNEL');
+
+      resultPromise.catch(error => {
+        expect(error).toEqual(new Error('Mediator.callChannel - channel "CHANNEL" should returns Promise'));
+        done();
+      });
     });
   });
 });

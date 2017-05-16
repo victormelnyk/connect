@@ -18,6 +18,8 @@ module.exports = {
     "window": true,
     "jasmine": true,
     "it": true,
-    "expect": true
+    "expect": true,
+    "beforeEach": true,
+    "describe": true
   }
 };

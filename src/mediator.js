@@ -67,9 +67,9 @@ export default class Mediator {
    * @param {string} channel
    * @param {function} channelFunction
    */
-  provideChannel(channel, channelFunction) {
+  register(channel, channelFunction) {
     if (this._channels[channel]) {
-      throw new Error(`Mediator.provideChannel - channel "${channel}" already exist`);
+      throw new Error(`Mediator.register - channel "${channel}" already exist`);
     }
 
     this._channels[channel] = channelFunction;
@@ -79,9 +79,9 @@ export default class Mediator {
    * Remove channel
    * @param {string} channel
    */
-  removeChannel(channel) {
+  unregister(channel) {
     if (!this._channels[channel]) {
-      throw new Error(`Mediator.removeChannel - channel "${channel}" does not exist`);
+      throw new Error(`Mediator.unregister - channel "${channel}" does not exist`);
     }
 
     delete this._channels[channel];

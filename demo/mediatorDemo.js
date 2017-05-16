@@ -2,31 +2,31 @@
 (() => {
   const mediator = window.connection.mediator;
 
-  mediator.provideChannel('CHANNEL_1', () => 2);
+  mediator.register('CHANNEL_1', () => 2);
 
   const result = mediator.callChannelSynk('CHANNEL_1');
   console.log('CHANNEL_1 result', result);
 
-  mediator.removeChannel('CHANNEL_1');
+  mediator.unregister('CHANNEL_1');
 })();
 
 // Sink call with params
 (() => {
   const mediator = window.connection.mediator;
 
-  mediator.provideChannel('CHANNEL_2', (val1, val2) => (val1 + val2) * 2);
+  mediator.register('CHANNEL_2', (val1, val2) => (val1 + val2) * 2);
 
   const result = mediator.callChannelSynk('CHANNEL_2', [1, 2]);
   console.log('CHANNEL_2 result', result);
 
-  mediator.removeChannel('CHANNEL_2');
+  mediator.unregister('CHANNEL_2');
 })();
 
 // Asink call with params
 (() => {
   const mediator = window.connection.mediator;
 
-  mediator.provideChannel('CHANNEL_3', (val1, val2) => new Promise(resolve => {
+  mediator.register('CHANNEL_3', (val1, val2) => new Promise(resolve => {
     setTimeout(() => {
       resolve((val1 + val2) * 2);
     }, 1000);
@@ -36,5 +36,5 @@
     console.log('CHANNEL_3 result', result);
   });
 
-  mediator.removeChannel('CHANNEL_3');
+  mediator.unregister('CHANNEL_3');
 })();
