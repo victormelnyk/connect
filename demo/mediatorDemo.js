@@ -1,3 +1,4 @@
+// TODO move to separate files
 // Sink call without params
 (() => {
   const mediator = window.connection.mediator;
