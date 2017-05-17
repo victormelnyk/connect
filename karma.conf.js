@@ -7,6 +7,7 @@ module.exports = config => {
     colors: true,
     files: [
       'node_modules/babel-polyfill/dist/polyfill.js',
+      'node_modules/underscore/underscore.js',
       'src/*.js',
       'tests/*.spec.js'
     ],
