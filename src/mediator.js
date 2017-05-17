@@ -1,7 +1,7 @@
 export default class Mediator {
   constructor() {
     /**
-     * Channel map
+     * Channels map
      * @member {{}}
      * @private
      */

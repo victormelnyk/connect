@@ -1,4 +1,5 @@
 import ConnectFunc from '../src/connect';
+import ConnectWrapper from '../src/connectWrapper';
 
 fdescribe('#connectFactory', () => {
   let Connect;
@@ -9,7 +10,8 @@ fdescribe('#connectFactory', () => {
     //   Connect = _Connect_;
     // });
 
-    Connect = ConnectFunc();
+    // Connect = ConnectFunc();
+    Connect = ConnectWrapper();
   });
 
   describe('#sync', () => {
