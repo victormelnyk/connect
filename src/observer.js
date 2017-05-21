@@ -1,5 +1,6 @@
 export default class Observer {
   constructor() {
+    // TODO add strict mode
     /**
      * Subscriptions map
      * @member {{channel: {subscriberName: function}}}
@@ -24,7 +25,7 @@ export default class Observer {
     _.each(this._subscriptions, channelFunctionsBySubscriberName => {
       if (channelFunctionsBySubscriberName[subscriberName]) {
         delete channelFunctionsBySubscriberName[subscriberName];
-      } // todo add error for strict mode if not exist
+      } // TODO add error on strict mode if subscription not exist
     });
   }
 

@@ -1,6 +1,6 @@
 import Observer from '../src/observer';
 
-fdescribe('Observer -', () => {
+describe('Observer -', () => {
   let observer;
 
   beforeEach(() => {
