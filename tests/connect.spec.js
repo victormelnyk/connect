@@ -1,7 +1,7 @@
 import ConnectFunc from '../src/connect';
 import ConnectWrapper from '../src/connectWrapper';
 
-fdescribe('#connectFactory', () => {
+describe('#connectFactory', () => {
   let Connect;
 
   beforeEach(() => {

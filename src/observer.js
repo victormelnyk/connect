@@ -2,13 +2,13 @@ export default class Observer {
   constructor() {
     /**
      * Subscriptions map
-     * @member {{channel: {subkey: function}}}
+     * @member {{channel: {subscriberName: function}}}
      * @private
      */
     this._subscriptions = {};
   }
-  // TODO rename subkey
-  subscribe(subkey, channel, channelFunction) {
+
+  subscribe(subscriberName, channel, channelFunction) {
     const channels = _.isArray(channel) ? channel : [channel];
 
     _.each(channels, channelName => {
@@ -16,22 +16,26 @@ export default class Observer {
         this._subscriptions[channelName] = {};
       }
 
-      this._subscriptions[channelName][subkey] = channelFunction;
+      this._subscriptions[channelName][subscriberName] = channelFunction;
     });
   }
 
-  unsubscribe(subkey) {
-    _.each(this._subscriptions, channelFunctionsBySubkey => {
-      if (channelFunctionsBySubkey[subkey]) {
-        delete channelFunctionsBySubkey[subkey];
-      }
+  unsubscribe(subscriberName) {
+    _.each(this._subscriptions, channelFunctionsBySubscriberName => {
+      if (channelFunctionsBySubscriberName[subscriberName]) {
+        delete channelFunctionsBySubscriberName[subscriberName];
+      } // todo add error for strict mode if not exist
     });
   }
 
   emit(channel, channelFunctionArguments = []) {
-    _.each(this._subscriptions[channel], channelFunction => {
-      // TODO update to channelFunction(...channelFunctionArguments);
-      channelFunction(channelFunctionArguments);
-    });
+    const channelFunctionsBySubscriberName = this._subscriptions[channel];
+
+    if (channelFunctionsBySubscriberName) {
+      _.each(channelFunctionsBySubscriberName, channelFunction => {
+        // TODO update to channelFunction(...channelFunctionArguments);
+        channelFunction(channelFunctionArguments);
+      });
+    }
   }
 }
