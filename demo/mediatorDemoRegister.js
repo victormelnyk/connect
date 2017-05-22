@@ -1,14 +1,9 @@
-// TODO move to separate files
 // Sink call without params
 (() => {
   const mediator = window.connection.mediator;
 
   mediator.register('CHANNEL_1', () => 2);
-
-  const result = mediator.executeSynk('CHANNEL_1');
-  console.log('CHANNEL_1 result', result);
-
-  mediator.unregister('CHANNEL_1');
+  console.log('Mediator register', 'CHANNEL_1');
 })();
 
 // Sink call with params
@@ -16,11 +11,7 @@
   const mediator = window.connection.mediator;
 
   mediator.register('CHANNEL_2', (val1, val2) => (val1 + val2) * 2);
-
-  const result = mediator.executeSynk('CHANNEL_2', [1, 2]);
-  console.log('CHANNEL_2 result', result);
-
-  mediator.unregister('CHANNEL_2');
+  console.log('Mediator register', 'CHANNEL_2');
 })();
 
 // Asink call with params
@@ -32,10 +23,5 @@
       resolve((val1 + val2) * 2);
     }, 1000);
   }));
-
-  mediator.execute('CHANNEL_3', [1, 2]).then(result => {
-    console.log('CHANNEL_3 result', result);
-  });
-
-  mediator.unregister('CHANNEL_3');
+  console.log('Mediator register', 'CHANNEL_3');
 })();
