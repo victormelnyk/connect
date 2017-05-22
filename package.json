@@ -1,18 +1,18 @@
 {
-  "name": "connection",
+  "name": "communication",
   "version": "1.0.0",
-  "description": "Connection",
+  "description": "Communication",
   "main": "index.html",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/victormelnyk/connection.git"
+    "url": "git+https://github.com/victormelnyk/communication.git"
   },
   "author": "Victor Melnyk",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/victormelnyk/connection/issues"
+    "url": "https://github.com/victormelnyk/communication/issues"
   },
-  "homepage": "https://github.com/victormelnyk/connection#readme",
+  "homepage": "https://github.com/victormelnyk/communication#readme",
   "dependencies": {
     "underscore": "^1.8.3"
   },
@@ -39,7 +39,7 @@
     "watchify": "^3.9.0"
   },
   "scripts": {
-    "browser": "mkdirp dist | browserify src/index.js -o dist/connection.js -t [ babelify --presets [ es2015 ] ] --debug | echo Done",
+    "browser": "mkdirp dist | browserify src/index.js -o dist/communication.js -t [ babelify --presets [ es2015 ] ] --debug | echo Done",
     "test": "karma start karma.conf.js",
     "build": "npm run browser",
     "lint": "eslint src/*.js demo/*.js",
