@@ -1,4 +1,3 @@
-import ConnectFunc from '../src/connect';
 import ConnectWrapper from '../src/connectWrapper';
 
 describe('#connectFactory', () => {
@@ -10,7 +9,6 @@ describe('#connectFactory', () => {
     //   Connect = _Connect_;
     // });
 
-    // Connect = ConnectFunc();
     Connect = ConnectWrapper();
   });
 
