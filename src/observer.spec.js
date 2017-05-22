@@ -74,17 +74,27 @@ describe('Observer -', () => {
       observer.subscribe('Subscriber', 'CHANEL', spyFunc);
       observer.emit('CHANEL');
 
-      expect(spyFunc).toHaveBeenCalledWith([]);
+      expect(spyFunc).toHaveBeenCalledWith();
     });
 
-    it('emit with params', () => {
+    it('emit with one param', () => {
+      const func = () => {};
+      const spyFunc = jasmine.createSpy().and.callFake(func);
+
+      observer.subscribe('Subscriber', 'CHANEL', spyFunc);
+      observer.emit('CHANEL', 1);
+
+      expect(spyFunc).toHaveBeenCalledWith(1);
+    });
+
+    it('emit with many params', () => {
       const func = () => {};
       const spyFunc = jasmine.createSpy().and.callFake(func);
 
       observer.subscribe('Subscriber', 'CHANEL', spyFunc);
       observer.emit('CHANEL', [1, 2]);
 
-      expect(spyFunc).toHaveBeenCalledWith([1, 2]);
+      expect(spyFunc).toHaveBeenCalledWith(1, 2);
     });
 
     it('emit not registered channel', () => {

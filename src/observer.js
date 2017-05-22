@@ -31,11 +31,12 @@ export default class Observer {
 
   emit(channel, channelFunctionArguments = []) {
     const channelFunctionsBySubscriberName = this._subscriptions[channel];
+    const channelFunctionArgumentsArray = _.isArray(channelFunctionArguments)
+      ? channelFunctionArguments : [channelFunctionArguments];
 
     if (channelFunctionsBySubscriberName) {
       _.each(channelFunctionsBySubscriberName, channelFunction => {
-        // TODO update to channelFunction(...channelFunctionArguments);
-        channelFunction(channelFunctionArguments);
+        channelFunction(...channelFunctionArgumentsArray);
       });
     }
   }

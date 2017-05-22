@@ -8,13 +8,11 @@ module.exports = config => {
     files: [
       'node_modules/babel-polyfill/dist/polyfill.js',
       'node_modules/underscore/underscore.js',
-      'src/*.js',
-      'tests/*.spec.js'
+      'src/*.js'
     ],
 
     preprocessors: {
-      'src/*.js': ['browserify'],
-      'tests/*.spec.js': ['browserify'],
+      'src/*.js': ['browserify']
     },
 
     browserify: {
@@ -27,7 +25,9 @@ module.exports = config => {
         ['browserify-istanbul', {
           instrumenterConfig: {
             embedSource: true
-          }
+          },
+          ignore: ['**/*.spec.js'],
+          defaultIgnore: true
         }]
       ]
     },
